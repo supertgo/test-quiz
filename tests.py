@@ -165,3 +165,15 @@ def test_correct_selected_choices_invalid():
 
     with pytest.raises(Exception):
         question.correct_selected_choices([choice1.id, choice2.id])
+
+
+def test_fixture_with_two_questions(question_with_two_choices):
+    assert len(question_with_two_choices.choices) == 2
+
+
+def test_fixture_with_two_questions_removing(question_with_two_choices):
+    assert len(question_with_two_choices.choices) == 2
+
+    question_with_two_choices.remove_all_choices()
+
+    assert len(question_with_two_choices.choices) == 0
