@@ -1,3 +1,4 @@
+from typing import List, Optional
 import uuid
 
 
@@ -80,7 +81,7 @@ class Question:
         Exception: If any of the provided choice IDs are invalid.
     """
 
-    def set_correct_choices(self, correct_choice_ids: list[int]):
+    def set_correct_choices(self, correct_choice_ids: List[int]):
         for choice_id in correct_choice_ids:
             choice = self._find_choice_by_id(choice_id)
             if choice:
@@ -99,7 +100,7 @@ class Question:
         Exception: If more than the maximum allowed selections are made.
     """
 
-    def correct_selected_choices(self, selected_choice_ids: list[int]) -> list[int]:
+    def correct_selected_choices(self, selected_choice_ids: List[int]) -> List[int]:
         if len(selected_choice_ids) > self.max_selections:
             raise Exception(f"Cannot select more than {self.max_selections} choices")
 
@@ -118,20 +119,20 @@ class Question:
         last_choice = self.choices[-1]
         return last_choice.id + 1
 
-    def _find_choice_by_id(self, choice_id: int) -> Choice | None:
+    def _find_choice_by_id(self, choice_id: int) -> Optional[Choice]:
         self._check_valid_choice_id(choice_id)
         for choice in self.choices:
             if choice.id == choice_id:
                 return choice
         return None
 
-    def _find_correct_choice_ids(self) -> list[int]:
+    def _find_correct_choice_ids(self) -> List[int]:
         return [choice.id for choice in self.choices if choice.is_correct]
 
     def _check_valid_choice_id(self, choice_id: int):
         if choice_id not in self._list_choice_ids():
             raise Exception(f"Invalid choice id {choice_id}")
 
-    def _list_choice_ids(self) -> list[int]:
+    def _list_choice_ids(self) -> List[int]:
         return [choice.id for choice in self.choices]
 
